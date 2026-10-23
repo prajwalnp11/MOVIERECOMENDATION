@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
         - name: movie-recommender
-          image: prajwalnp11/movie-recommender:1.0
+          image: prajwalnp11/movie-recommender:5b5ac02878e8493bd100618b888f6659cae04409
           ports:
             - containerPort: 8501
           env:
@@ -23,3 +24,22 @@ spec:
                 secretKeyRef:
                   name: movie-recommender-secret
                   key: TMDB_API_KEY
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
