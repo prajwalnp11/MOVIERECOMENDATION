@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-recommender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movie-recommender
+  template:
+    metadata:
+      labels:
+        app: movie-recommender
+    spec:
+      containers:
+        - name: movie-recommender
+          image: prajwalnp11/movie-recommender:1.0
+          ports:
+            - containerPort: 8501
+          env:
+            - name: TMDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: movie-recommender-secret
+                  key: TMDB_API_KEY
