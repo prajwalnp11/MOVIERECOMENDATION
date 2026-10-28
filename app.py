@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+TMDB_API_KEY = os.getenv("TMDB_BEARER_TOKEN")
 TMDB_API_URL = "https://api.themoviedb.org/3/movie/"
 POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
@@ -22,10 +22,10 @@ st.set_page_config(
 # Load saved movie data and similarity matrix
 @st.cache_resource
 def load_data():
-    with open("movies.pkl", "rb") as file:
+    with open("movies_indian_candidate.pkl", "rb") as file:
         movies_data = pickle.load(file)
 
-    with open("similarity.pkl", "rb") as file:
+    with open("similarity_indian_candidate.pkl", "rb") as file:
         similarity_data = pickle.load(file)
 
     return movies_data, similarity_data
@@ -43,7 +43,7 @@ def get_poster(movie_id, api_key):
     try:
         response = requests.get(
             f"{TMDB_API_URL}{int(movie_id)}",
-            params={"api_key": api_key},
+            headers={"Authorization": f"Bearer {api_key}"},
             timeout=10
         )
 
