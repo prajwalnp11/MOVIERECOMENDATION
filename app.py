@@ -25,7 +25,7 @@ def load_data():
     with open("movies_indian_candidate.pkl", "rb") as file:
         movies_data = pickle.load(file)
 
-    with open("similarity_indian_candidate.pkl", "rb") as file:
+    with open("similarity_indian_candidate_f32.pkl", "rb") as file:
         similarity_data = pickle.load(file)
 
     return movies_data, similarity_data
